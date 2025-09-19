@@ -5,7 +5,7 @@
 #include <map>
 
 int monthToInt(string m){
-    if (m == "Ene"){
+    if (m == "ene"){
         return 1;
     } else if (m == "Feb"){
         return 2;
@@ -79,70 +79,60 @@ void loadOrderData(const string& filename, vector<Order*>& _orders) {
     file.close();
 }
 
-//bubble sort for the prices of Item objects
-void bubbleSortOrders(vector<Order*>& A, int n, bool asc = true){
-    Order* aux;
-    bool change;
-    for (int i = 0; i < n-1; i++){
-        change = false;
-        for (int j = 0; j < n - i - 1; j++){
-            if (asc ? (*A[j] > *A[j+1]) : ((*A[j] < *A[j+1]))) {
-                aux = A[j+1];
-                A[j+1] = A[j];
-                A[j] = aux;
-                change = true;
-            }
+void merge(vector<Order*>& A, int L, int M, int R, bool asc = true){
+    int s1 = M-L+1; //partition izquierda
+    int s2 = R-M; //partition derecha
+
+   vector<Order*> parteL(s1), parteR(s2);
+
+    int i,j,k;
+
+    for (i=0;i<s1;i++){
+        //Copia los elementos de la primera mitad
+        parteL[i] = A[L+i];
+    }
+    for (j=0;j<s2;j++){
+        //Copia los elementos de la segunda mitad
+        parteR[j] = A[M+1+j];
+    }
+
+    i=0;
+    j=0;
+    k=L;
+
+    while(i<s1 && j<s2){
+        // Compara los elementos de las dos mitades y los combina en orden ascendente
+        if (asc ? (*parteL[i]<=*parteR[j]) : (*parteL[i] >=*parteR[j])){
+            A[k] = parteL[i];
+            i++;
+        }else{
+            A[k] = parteR[j];
+            j++;
         }
-        if (change == false){
-            break;
-        }
+        k++;
+    }
+
+    //Copia los elementos restantes de la primera mitad
+    while(i<s1){
+        A[k] = parteL[i];
+        i++;
+        k++;
+    }
+    //Copia los elementos restantes de la segunda mitad
+    while(j<s2){
+        A[k] = parteR[j];
+        j++;
+        k++;
     }
 }
+void mergeSort(vector<Order*>& A, int L, int R, bool asc = true) {
+    int M = L+(R-L)/2;
 
-
-// merge function for the order pointers
-void mergeItems(vector<Order*>& A, int l, int m, int r, bool asc = true) {
-    int s1 = m - l + 1;
-    int s2 = r - m;
-
-    vector<Order*> L(s1), R(s2);
-
-    for (int i = 0; i < s1; ++i) L[i] = A[l + i];
-    for (int j = 0; j < s2; ++j) R[j] = A[m + 1 + j];
-
-    int i = 0, j = 0, k = l;
-    while (i < s1 && j < s2) {
-
-        if (asc ? (*L[i] <= *R[j]) : (*L[i] >= *R[j])) {
-            A[k] = L[i];
-            i = i + 1;
-        } else {
-            A[k] = R[j];
-            j = j + 1;
-        }
-        k = k + 1;
+    if (L<R) {
+        mergeSort(A,L,M,asc);
+        mergeSort(A,M+1,R,asc);
+        merge(A,L,M,R,asc);
     }
-
-    while (i < s1) {
-        A[k] = L[i];
-        i = i + 1;
-        k = k + 1;
-    }
-
-    while (j < s2) {
-        A[k] = R[j];
-        j = j + 1;
-        k = k + 1;
-    }
-}
-
-// merge sort for the order pointers
-void mergeSortItems(vector<Order*>& A, int l, int r, bool asc = true) {
-    if (l >= r) return;
-    int m = l + (r - l) / 2;
-    mergeSortItems(A, l, m,   asc);
-    mergeSortItems(A, m + 1, r, asc);
-    mergeItems(A, l, m, r,    asc);
 }
 
 int main(){
@@ -154,7 +144,7 @@ int main(){
     }
     cout << endl;
     int n = orders.size();
-    mergeSortItems(orders, 0, n-1, true);
+    mergeSort(orders, 0, n-1, true);
 
     for (int i = 0; i < 10; i++){
         cout << *orders[i] <<endl;
