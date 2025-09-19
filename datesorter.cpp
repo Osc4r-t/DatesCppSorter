@@ -135,6 +135,24 @@ void mergeSort(vector<Order*>& A, int L, int R, bool asc = true) {
     }
 }
 
+int binarySearch(vector<Order*>& A, int n, Order *x){
+    int bajo = 0, alto = n-1;
+    int medio;
+    while (bajo <= alto){
+        medio = (bajo + alto)/2; //Calcula el punto medio del arreglo
+
+        if (A[medio] == x){ //Verifica si se ha encontrado el valor buscado
+            return medio;
+        }else if(A[medio] < x){//Si el valor buscado es mayor que el valor del punto medio se busca en la parte superior del arreglo
+            bajo = medio + 1;
+        }else{//Si el valor buscado es menor que el valor del punto medio se busca en la parte inferior del arreglo
+            alto = medio - 1;
+        }
+    }
+
+    return medio;//Devuelve  el indice medio anque no se encuentre valor exacto
+}
+
 int main(){
     vector<Order*> orders;
     loadOrderData("orders.txt", orders);
