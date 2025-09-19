@@ -2,14 +2,17 @@
 using namespace std;
 
 class Order {
-    private:
+private:
     int sec, min, hr, day, month, n;
     string restaurant, name;
-    public:
+public:
     Order() : sec(0), min(0), hr(0), day(0), month(0), n(0), restaurant(""), name("") {}
-     Order(int _s, int _min, int _h, int _d, int _m, int _n, const string& _r, const string& _nm)
-        : sec(_s), min(_min), hr(_h), day(_d), month(_m), n(_n),
-          restaurant(_r), name(_nm) {}
+    Order(int _s, int _min, int _h, int _d, int _m, int _n, const string& _r, const string& _nm)
+       : sec(_s), min(_min), hr(_h), day(_d), month(_m), n(_n),
+         restaurant(_r), name(_nm) {}
+    Order(int _s, int _min, int _h, int _d, int _m)
+        : sec(_s), min(_min), hr(_h), day(_d), month(_m),
+          n(0), restaurant(""), name("") {}
 
     int getSec() const { return sec; }
     int getMin() const { return min; }
@@ -22,11 +25,11 @@ class Order {
 
     int compareTime(const Order& other) const {
 
-        if (month != other.month) {return (month < other.month) ? (-1) : (1);}
-        if (day   != other.day)   {return (day   < other.day)   ? (-1) : (1);}
-        if (hr    != other.hr)    {return (hr    < other.hr)    ? (-1) : (1);}
-        if (min   != other.min)   {return (min   < other.min)   ? (-1) : (1);}
-        if (sec   != other.sec)   {return (sec   < other.sec)   ? (-1) : (1);}
+        if (month != other.month) {return (month < other.month) ? (-2) : (2);}
+        if (day   != other.day)   {return (day   < other.day)   ? (-3) : (3);}
+        if (hr    != other.hr)    {return (hr    < other.hr)    ? (-4) : (4);}
+        if (min   != other.min)   {return (min   < other.min)   ? (-5) : (5);}
+        if (sec   != other.sec)   {return (sec   < other.sec)   ? (-6) : (6);}
         return 0;
     }
 
