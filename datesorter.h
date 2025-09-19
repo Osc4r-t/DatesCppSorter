@@ -61,7 +61,8 @@ class Order {
       if (order.getMonth() == 11) mes = "NOV";
       if (order.getMonth() == 12) mes = "DIC";
 
-      os << mes << " " << order.getDay() << " " << order.getHour() << ":" << order.getMin() << ":" << order.getSec() << " " << order.getRestaurant() << " " << order.getName() << "(" << order.getNumber() << ")";
+      os << mes << " " << order.getDay() << " " << order.getHour() << ":" << order.getMin() << ":" << order.getSec()
+        << " R:" << order.getRestaurant() << "O:" << order.getName() << "(" << order.getNumber() << ")";
 
       return os;
     }

@@ -5,7 +5,7 @@
 #include <map>
 
 int monthToInt(string m){
-    if (m == "ene"){
+    if (m == "Ene"){
         return 1;
     } else if (m == "Feb"){
         return 2;
@@ -47,7 +47,7 @@ void loadOrderData(const string& filename, vector<Order*>& _orders) {
 
     while(getline(file, line)){
         stringstream ss(line);
-        string s, min, hr, day, month, year, n, r, o;
+        string s, min, hr, day, month, year, n, r, o, waste;
 
         // get each field from the csv line
         getline(ss, month,' ');
@@ -55,7 +55,9 @@ void loadOrderData(const string& filename, vector<Order*>& _orders) {
         getline(ss, hr, ':');
         getline(ss, min, ':');
         getline(ss, s, ' ');
-        getline(ss, r, ' ');
+        getline(ss, waste, ':');
+        getline(ss, r, 'O');
+        getline(ss, waste, ':');
         getline(ss, o, '(');
         getline(ss, n, ')');
 
