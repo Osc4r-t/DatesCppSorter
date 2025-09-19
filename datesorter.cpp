@@ -145,10 +145,6 @@ void mergeSortItems(vector<Order*>& A, int l, int r, bool asc = true) {
     mergeItems(A, l, m, r,    asc);
 }
 
-
-
-
-
 int main(){
     vector<Order*> orders;
     loadOrderData("orders.txt", orders);

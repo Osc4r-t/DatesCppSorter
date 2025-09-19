@@ -22,11 +22,11 @@ class Order {
 
     int compareTime(const Order& other) const {
 
-        if (month != other.month) {return (month < other.month) ? (-2) : (2);}
-        if (day   != other.day)   {return (day   < other.day)   ? (-3) : (3);}
-        if (hr    != other.hr)    {return (hr    < other.hr)    ? (-4) : (4);}
-        if (min   != other.min)   {return (min   < other.min)   ? (-5) : (5);}
-        if (sec   != other.sec)   {return (sec   < other.sec)   ? (-6) : (6);}
+        if (month != other.month) {return (month < other.month) ? (-1) : (1);}
+        if (day   != other.day)   {return (day   < other.day)   ? (-1) : (1);}
+        if (hr    != other.hr)    {return (hr    < other.hr)    ? (-1) : (1);}
+        if (min   != other.min)   {return (min   < other.min)   ? (-1) : (1);}
+        if (sec   != other.sec)   {return (sec   < other.sec)   ? (-1) : (1);}
         return 0;
     }
 
