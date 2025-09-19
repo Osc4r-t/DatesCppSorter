@@ -98,6 +98,53 @@ void bubbleSortOrders(vector<Order*>& A, int n, bool asc = true){
 }
 
 
+// merge function for the order pointers
+void mergeItems(vector<Order*>& A, int l, int m, int r, bool asc = true) {
+    int s1 = m - l + 1;
+    int s2 = r - m;
+
+    vector<Order*> L(s1), R(s2);
+
+    for (int i = 0; i < s1; ++i) L[i] = A[l + i];
+    for (int j = 0; j < s2; ++j) R[j] = A[m + 1 + j];
+
+    int i = 0, j = 0, k = l;
+    while (i < s1 && j < s2) {
+
+        if (asc ? (*L[i] <= *R[j]) : (*L[i] >= *R[j])) {
+            A[k] = L[i];
+            i = i + 1;
+        } else {
+            A[k] = R[j];
+            j = j + 1;
+        }
+        k = k + 1;
+    }
+
+    while (i < s1) {
+        A[k] = L[i];
+        i = i + 1;
+        k = k + 1;
+    }
+
+    while (j < s2) {
+        A[k] = R[j];
+        j = j + 1;
+        k = k + 1;
+    }
+}
+
+// merge sort for the order pointers
+void mergeSortItems(vector<Order*>& A, int l, int r, bool asc = true) {
+    if (l >= r) return;
+    int m = l + (r - l) / 2;
+    mergeSortItems(A, l, m,   asc);
+    mergeSortItems(A, m + 1, r, asc);
+    mergeItems(A, l, m, r,    asc);
+}
+
+
+
 
 
 int main(){
@@ -105,11 +152,11 @@ int main(){
     loadOrderData("orders.txt", orders);
 
     for (int i = 0; i < 10; i++){
-        cout << orders[i] <<endl;
+        cout << *orders[i] <<endl;
     }
     cout << endl;
     int n = orders.size();
-    bubbleSortOrders(orders, n, false);
+    mergeSortItems(orders, 0, n-1, true);
 
     for (int i = 0; i < 10; i++){
         cout << *orders[i] <<endl;

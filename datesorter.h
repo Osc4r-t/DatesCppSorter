@@ -39,6 +39,12 @@ class Order {
     bool operator < (const Order& other) const {
         return (compareTime(other) < 0);
     }
+    bool operator >= (const Order& other) const {
+        return (compareTime(other) >= 0);
+    }
+    bool operator <= (const Order& other) const {
+        return (compareTime(other) <= 0);
+    }
 
     friend ostream& operator<<(ostream& os, const Order& order){
       string mes;
