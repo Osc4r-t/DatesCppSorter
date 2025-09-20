@@ -150,7 +150,7 @@ int binarySearch(vector<Order*>& A, int n, Order *x){
         }
     }
 
-    return medio;//Devuelve  el indice medio anque no se encuentre valor exacto
+    return (bajo >= alto) ? bajo : alto;//Devuelve  el indice que corresponda al primer valor mayor que el deseado
 }
 
 int main(){
