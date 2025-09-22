@@ -34,14 +34,6 @@ int monthToInt(string m){
     return 0;
 }
 
-//pequeña pausa
-void pause(){
-    cout << "Press enter to continue.";
-    cin.ignore(); // limpia cualquier residuo
-    cin.get();    // espera por el click de cualquier tecla
-}
-
-
 void loadOrderData(const string& filename, vector<Order*>& _orders) {
     ifstream file(filename);//lee el archivo
     string line;
