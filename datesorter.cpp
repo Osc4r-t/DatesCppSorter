@@ -135,15 +135,15 @@ void mergeSort(vector<Order*>& A, int L, int R, bool asc = true) {
     }
 }
 
-int binarySearch(vector<Order*>& A, int n, Order *x){
+int binarySearch(vector<Order*>& A, int n, Order x){
     int bajo = 0, alto = n-1;
-    int medio;
+    int medio = 0;
     while (bajo <= alto){
         medio = (bajo + alto)/2; //Calcula el punto medio del arreglo
 
-        if (A[medio] == x){ //Verifica si se ha encontrado el valor buscado
+        if (*A[medio] == x){ //Verifica si se ha encontrado el valor buscado
             return medio;
-        }else if(A[medio] < x){//Si el valor buscado es mayor que el valor del punto medio se busca en la parte superior del arreglo
+        }else if(*A[medio] < x){//Si el valor buscado es mayor que el valor del punto medio se busca en la parte superior del arreglo
             bajo = medio + 1;
         }else{//Si el valor buscado es menor que el valor del punto medio se busca en la parte inferior del arreglo
             alto = medio - 1;
@@ -168,10 +168,26 @@ int main(){
         cout << *orders[i] <<endl;
     }
 
-    cout << (orders[1] == orders[2]) << endl;
+    int m,d,h,minute,s;
+    
+    cout << "Que rango de fechas desea buscar?" << endl << "Ingrese fecha inicial (M D H Min S): ";
+    cin >> m >> d >> h >> minute >> s;
+    Order x = Order(s,minute,h,d,m);
+    int rango_bajo = binarySearch(orders, n, x);
+    
+    cout << "Ingrese fecha final (M D H Min S): ";
+    cin >> m >> d >> h >> minute >> s;
+    x = Order(s,minute,h,d,m);
+    int rango_alto = binarySearch(orders, n, x);
+
+    for (int i = rango_bajo; i < rango_alto; i++) {
+        cout << *orders[i] <<endl;
+    }
 
     for (Order* order : orders) {
         delete order;
     }
     orders.clear();
+
+    return 0;
 }
