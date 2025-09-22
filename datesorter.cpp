@@ -4,6 +4,7 @@
 #include <sstream>
 #include <map>
 
+//Convierte los strings de meses a int
 int monthToInt(string m){
     if (m == "ene"){
         return 1;
@@ -40,29 +41,29 @@ void pause(){
     cin.get();    // espera por el click de cualquier tecla
 }
 
-// this function loads movie data from a csv and adds them to the catalog
+
 void loadOrderData(const string& filename, vector<Order*>& _orders) {
-    ifstream file(filename);
+    ifstream file(filename);//lee el archivo
     string line;
 
     while(getline(file, line)){
         stringstream ss(line);
         string s, min, hr, day, month, year, n, r, o, waste;
 
-        // get each field from the csv line
+        // obtiene cada elemento de la orden
         getline(ss, month,' ');
         getline(ss, day, ' ');
         getline(ss, hr, ':');
         getline(ss, min, ':');
         getline(ss, s, ' ');
-        getline(ss, waste, ':');
+        getline(ss, waste, ':');//guarda las partes del formato que no nos interesan
         getline(ss, r, 'O');
-        getline(ss, waste, ':');
+        getline(ss, waste, ':');//guarda las partes del formato que no nos interesan
         getline(ss, o, '(');
         getline(ss, n, ')');
 
 
-        // convert strings to numbers
+        // convierte strings a numeros
         int _s, _min, _hr, _day, _month, _n;
         _s = stoi(s);
         _min = stoi(min);
@@ -71,7 +72,7 @@ void loadOrderData(const string& filename, vector<Order*>& _orders) {
         _month = monthToInt(month);
         _n = stoi(n);
 
-        // create a new movie and add to the catalog
+        // crea un nuevo elemento y lo agrega al vector
         _orders.push_back(new Order(_s,_min,_hr,_day,_month,_n,r,o));
 
     }
@@ -126,12 +127,12 @@ void merge(vector<Order*>& A, int L, int M, int R, bool asc = true){
     }
 }
 void mergeSort(vector<Order*>& A, int L, int R, bool asc = true) {
-    int M = L+(R-L)/2;
+    int M = L+(R-L)/2;//crea el indice medio
 
     if (L<R) {
-        mergeSort(A,L,M,asc);
-        mergeSort(A,M+1,R,asc);
-        merge(A,L,M,R,asc);
+        mergeSort(A,L,M,asc);//particion izquiera
+        mergeSort(A,M+1,R,asc);//particion derecha
+        merge(A,L,M,R,asc);//una las partes
     }
 }
 
@@ -154,36 +155,46 @@ int binarySearch(vector<Order*>& A, int n, Order x){
 }
 
 int main(){
-    vector<Order*> orders;
-    loadOrderData("orders.txt", orders);
-
-    for (int i = 0; i < 10; i++){
-        cout << *orders[i] <<endl;
-    }
-    cout << endl;
+    
+    vector<Order*> orders;//crea el vector donde se guardaran los objetos
+    loadOrderData("orders.txt", orders);//lee el archivo de texto y guarda los objetos
     int n = orders.size();
+
+    //acomoda los objetos
     mergeSort(orders, 0, n-1, true);
 
+    //Crear un archivo de texto con las ordenes en orden
+    ofstream archivo("ordenado.txt");
+    for (int i = 0; i < n; i++) {
+        archivo << *orders[i] <<endl;
+    }
+    archivo.close();
+    
+    //muestra los primeros diez objetos en orden ascendente
     for (int i = 0; i < 10; i++){
         cout << *orders[i] <<endl;
     }
 
+    //Le pregunta al usuario el rango que desea buscar
     int m,d,h,minute,s;
-    
+    //obtiene la fecha inical
     cout << "Que rango de fechas desea buscar?" << endl << "Ingrese fecha inicial (M D H Min S): ";
     cin >> m >> d >> h >> minute >> s;
     Order x = Order(s,minute,h,d,m);
     int rango_bajo = binarySearch(orders, n, x);
-    
+
+    //obtiene la fecha final
     cout << "Ingrese fecha final (M D H Min S): ";
     cin >> m >> d >> h >> minute >> s;
     x = Order(s,minute,h,d,m);
     int rango_alto = binarySearch(orders, n, x);
 
+    //muestra los valores en el rango deseado
     for (int i = rango_bajo; i < rango_alto; i++) {
         cout << *orders[i] <<endl;
     }
-
+    
+    //borra los pointers
     for (Order* order : orders) {
         delete order;
     }
