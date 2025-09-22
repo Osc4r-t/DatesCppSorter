@@ -155,7 +155,7 @@ int binarySearch(vector<Order*>& A, int n, Order x){
 }
 
 int main(){
-    
+
     vector<Order*> orders;//crea el vector donde se guardaran los objetos
     loadOrderData("orders.txt", orders);//lee el archivo de texto y guarda los objetos
     int n = orders.size();
@@ -169,7 +169,7 @@ int main(){
         archivo << *orders[i] <<endl;
     }
     archivo.close();
-    
+
     //muestra los primeros diez objetos en orden ascendente
     for (int i = 0; i < 10; i++){
         cout << *orders[i] <<endl;
@@ -192,6 +192,18 @@ int main(){
     //muestra los valores en el rango deseado
     for (int i = rango_bajo; i < rango_alto; i++) {
         cout << *orders[i] <<endl;
+    }
+
+    bool guardar;
+    cout << endl << "Deseas guardas los datos (1/0)? "; //pide al usuario si quiere guardar los datos
+    cin >> guardar;
+    if (guardar) {
+        //guarda los datos en un txt
+        ofstream archivo2("busqueda.txt");
+        for (int i = rango_bajo; i < rango_alto; i++) {
+            archivo2 << *orders[i] <<endl;
+        }
+        archivo2.close();
     }
     
     //borra los pointers
