@@ -2,7 +2,6 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include <map>
 
 //Convierte los strings de meses a int
 int monthToInt(string m){
@@ -33,6 +32,14 @@ int monthToInt(string m){
     }
     return 0;
 }
+
+//pequeña pausa
+void pause(){
+    cout << "Press enter to continue.";
+    cin.ignore(); // limpia cualquier residuo
+    cin.get();    // espera por el click de cualquier tecla
+}
+
 
 void loadOrderData(const string& filename, vector<Order*>& _orders) {
     ifstream file(filename);//lee el archivo
@@ -197,7 +204,7 @@ int main(){
         }
         archivo2.close();
     }
-    
+
     //borra los pointers
     for (Order* order : orders) {
         delete order;
