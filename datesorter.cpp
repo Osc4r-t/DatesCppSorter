@@ -41,10 +41,10 @@ void pause(){
 }
 
 
-void loadOrderData(const string& filename, vector<Order*>& _orders) {
+void loadOrderData(const string& filename, Order** _orders) {
     ifstream file(filename);//lee el archivo
     string line;
-
+    int i = 0;
     while(getline(file, line)){
         stringstream ss(line);
         string s, min, hr, day, month, year, n, r, o, waste;
@@ -72,8 +72,8 @@ void loadOrderData(const string& filename, vector<Order*>& _orders) {
         _n = stoi(n);
 
         // crea un nuevo elemento y lo agrega al vector
-        _orders.push_back(new Order(_s,_min,_hr,_day,_month,_n,r,o));
-
+        _orders[i] = new Order(_s,_min,_hr,_day,_month,_n,r,o);
+        i++;
     }
 
     file.close();
@@ -154,10 +154,14 @@ int binarySearch(vector<Order*>& A, int n, Order x){
 }
 
 int main(){
-
+    const int n = 10000;
+    Order* _orders[n];
     vector<Order*> orders;//crea el vector donde se guardaran los objetos
-    loadOrderData("orders.txt", orders);//lee el archivo de texto y guarda los objetos
-    int n = orders.size();
+    loadOrderData("orders.txt", _orders);//lee el archivo de texto y guarda los objetos
+
+    for (int i = 0; i < 10; i++){
+        cout << *_orders[i] << endl;
+    }
 
     //acomoda los objetos
     mergeSort(orders, 0, n-1, true);
